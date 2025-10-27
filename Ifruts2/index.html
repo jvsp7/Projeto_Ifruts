@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>iFruts - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #d6f5d6;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .background-frutas {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .fruta {
+      position: absolute;
+      width: 60px;
+      animation: flutuar 15s linear infinite;
+      opacity: 0.8;
+    }
+
+    .fruta:nth-child(1) {
+      top: 100%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .fruta:nth-child(2) {
+      top: 100%;
+      left: 30%;
+      animation-delay: 4s;
+    }
+
+    .fruta:nth-child(3) {
+      top: 100%;
+      left: 50%;
+      animation-delay: 2s;
+    }
+
+    .fruta:nth-child(4) {
+      top: 100%;
+      left: 70%;
+      animation-delay: 6s;
+    }
+
+    .fruta:nth-child(5) {
+      top: 100%;
+      left: 85%;
+      animation-delay: 1s;
+    }
+
+    @keyframes flutuar {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .login-container {
+        z-index: 1;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        width: 320px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+
+    .login-container img {
+      width: 80px;
+      margin-bottom: 1rem;
+    }
+
+    .login-container h2 {
+      margin-bottom: 1rem;
+      color: #2e7d32;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 0.5rem;
+      background-color: #43a047;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+
+    .error {
+      color: red;
+      margin-top: 0.5rem;
+    }
+
+    .toggle-link {
+      margin-top: 1rem;
+      color: #388e3c;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    #cadastro-form {
+      display: none;
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    #cadastro-form input {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fundo com frutas flutuando -->
+  <div class="background-frutas">
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590685.png" class="fruta">
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590686.png" class="fruta">
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590684.png" class="fruta">
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590690.png" class="fruta">
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590689.png" class="fruta">
+  </div>
+
+  <!-- Card de login -->
+  <div class="login-container">
+    <img src="images/IMG_8731.PNG" alt="Logo iFruts">
+    <h2>Bem-vindo ao iFruts</h2>
+
+    <div id="login-form">
+      <input type="text" id="usuario" placeholder="Usuário">
+      <input type="password" id="senha" placeholder="Senha">
+      <button onclick="fazerLogin()">Entrar</button>
+      <p class="error" id="erroMsg"></p>
+      <div class="toggle-link" onclick="mostrarCadastro()">Criar conta</div>
+    </div>
+
+    <div id="cadastro-form">
+      <input type="text" placeholder="Nome completo">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Criar senha">
+      <button onclick="alert('Cadastro fictício realizado!')">Cadastrar</button>
+      <div class="toggle-link" onclick="voltarLogin()">Já tenho uma conta</div>
+    </div>
+  </div>
+
+  <script>
+    function fazerLogin() {
+      const usuario = document.getElementById("usuario").value;
+      const senha = document.getElementById("senha").value;
+      const erro = document.getElementById("erroMsg");
+
+      if (usuario === "ifruts" && senha === "1234") {
+        window.location.href = "produtos.html";
+      } else {
+        erro.textContent = "Usuário ou senha inválidos.";
+      }
+    }
+
+    function mostrarCadastro() {
+      document.getElementById("login-form").style.display = "none";
+      document.getElementById("cadastro-form").style.display = "block";
+    }
+
+    function voltarLogin() {
+      document.getElementById("cadastro-form").style.display = "none";
+      document.getElementById("login-form").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
+
+

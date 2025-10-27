@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>iFruts - Produtos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .main {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .produtos {
+      flex: 3;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 1rem;
+      border-radius: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+
+    .card img {
+      width: 100%;
+      max-width: 150px;
+      height: auto;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .card img:hover {
+      transform: scale(1.05);
+    }
+
+    .card h3 {
+      margin: 0.5rem 0;
+    }
+
+    .card input {
+      width: 60px;
+      padding: 5px;
+      margin: 0.5rem 0;
+    }
+
+    .card button {
+      background-color: #388E3C;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s ease;
+      font-weight: bold;
+    }
+
+    .card button:hover {
+      background-color: #2E7D32;
+      transform: scale(1.05);
+    }
+
+    .carrinho {
+      flex: 1;
+      background: #fff;
+      padding: 1rem;
+      margin: 2rem 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .carrinho h2 {
+      margin-top: 0;
+    }
+
+    .carrinho ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .carrinho li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .carrinho p {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .carrinho button {
+      background-color: red;
+      margin-top: 10px;
+      width: 100%;
+      border: none;
+      padding: 0.6rem;
+      border-radius: 15px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+      font-weight: bold;
+    }
+
+    .carrinho button:hover {
+      transform: scale(1.05);
+      background-color: darkred;
+    }
+
+    /* Toast pop-up */
+    #toast {
+      visibility: hidden;
+      min-width: 300px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      padding: 20px;
+      position: fixed;
+      z-index: 999;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      font-size: 16px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      overflow: hidden;
+    }
+
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Frutas flutuando no toast */
+    .toast-fruta {
+      position: absolute;
+      width: 30px;
+      bottom: 0;
+      animation: floatToast 3s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatToast {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-60px) rotate(360deg); opacity: 0; }
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+      }
+
+      .produtos {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+
+      .carrinho {
+        width: 90%;
+        margin: 1rem auto;
+      }
+
+      .card input {
+        width: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Frutas disponíveis</h1>
+  <p>Escolha as frutas e quantidade desejada 🍎🍌🍇</p>
+</header>
+
+<div class="main">
+
+<div class="produtos">
+  <div class="card">
+    <img src="images/banana.png" alt="Banana">
+    <h3>Banana Prata</h3>
+    <p>R$ 5,00/kg</p>
+    <input type="number" id="qtd-banana" value="1" min="1">
+    <button onclick="adicionarAoCarrinho('Banana Prata', 5, 'qtd-banana')">Pedir</button>
+  </div>
+
+  <div class="card">
+    <img src="images/apple.png" alt="Maçã">
+    <h3>Maçã Fuji</h3>
+    <p>R$ 7,00/kg</p>
+    <input type="number" id="qtd-maca" value="1" min="1">
+    <button onclick="adicionarAoCarrinho('Maçã Fuji', 7, 'qtd-maca')">Pedir</button>
+  </div>
+
+  <div class="card">
+    <img src="images/mango.png" alt="Manga">
+    <h3>Manga Palmer</h3>
+    <p>R$ 6,00/kg</p>
+    <input type="number" id="qtd-manga" value="1" min="1">
+    <button onclick="adicionarAoCarrinho('Manga Palmer', 6, 'qtd-manga')">Pedir</button>
+  </div>
+
+  <div class="card">
+    <img src="images/grape.png" alt="Uva">
+    <h3>Uva sem semente</h3>
+    <p>R$ 10,00/kg</p>
+    <input type="number" id="qtd-uva" value="1" min="1">
+    <button onclick="adicionarAoCarrinho('Uva sem semente', 10, 'qtd-uva')">Pedir</button>
+  </div>
+</div>
+
+<div class="carrinho">
+  <h2>🛒 Carrinho</h2>
+  <ul id="lista-carrinho"></ul>
+  <p id="total">Total: R$ 0,00</p>
+  <button onclick="finalizarPedido()">Finalizar Pedido</button>
+  <button onclick="limparCarrinho()">Esvaziar Carrinho</button>
+</div>
+
+</div>
+
+<!-- Toast pop-up -->
+<div id="toast"></div>
+
+<script>
+const carrinho = [];
+
+function adicionarAoCarrinho(fruta, preco, inputId) {
+  const qtd = parseInt(document.getElementById(inputId).value);
+  if (qtd <= 0) return;
+  carrinho.push({ fruta, preco, qtd });
+  atualizarCarrinho();
+}
+
+function atualizarCarrinho() {
+  const lista = document.getElementById("lista-carrinho");
+  const total = document.getElementById("total");
+  lista.innerHTML = "";
+  let soma = 0;
+  carrinho.forEach((item, index) => {
+    const subtotal = item.preco * item.qtd;
+    soma += subtotal;
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}. ${item.fruta} - ${item.qtd}kg - R$ ${subtotal.toFixed(2)}`;
+    lista.appendChild(li);
+  });
+  total.textContent = `Total: R$ ${soma.toFixed(2)}`;
+}
+
+function limparCarrinho() {
+  carrinho.length = 0;
+  atualizarCarrinho();
+}
+
+function finalizarPedido() {
+  if (carrinho.length === 0) {
+    alert("Seu carrinho está vazio.");
+    return;
+  }
+
+  let listaItens = carrinho.map(item => `• ${item.fruta} - ${item.qtd}kg - R$ ${(item.qtd * item.preco).toFixed(2)}`).join('<br>');
+  let total = carrinho.reduce((acc, item) => acc + item.preco * item.qtd, 0);
+
+  const toast = document.getElementById("toast");
+  toast.innerHTML = `<strong>Pedido a caminho! 🚚</strong><br>${listaItens}<br><strong>Total: R$ ${total.toFixed(2)}</strong>`;
+
+  // Adiciona algumas frutas flutuando dentro do toast
+  toast.innerHTML += `
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590685.png" class="toast-fruta" style="left:10%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590686.png" class="toast-fruta" style="left:40%; animation-delay: 0.5s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/590/590684.png" class="toast-fruta" style="left:70%; animation-delay: 1s;">
+  `;
+
+  toast.classList.add("show");
+  setTimeout(() => { toast.classList.remove("show"); toast.innerHTML = ""; }, 5000);
+
+  limparCarrinho();
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
